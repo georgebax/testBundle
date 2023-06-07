@@ -1,0 +1,143 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>group</groupId>
+	<artifactId>TestProject</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>eclipse-plugin</packaging>
+	<name>TestProject</name>
+	
+	<properties>
+        <tycho-version>3.0.4</tycho-version>
+        <junit-version>5.9.1</junit-version>
+        <surefire-plugin-version>3.1.0</surefire-plugin-version>
+        <tc-build-number>257</tc-build-number>
+        
+        <!-- locations of the P2-repositories for the platform 
+        <platform-aggregated-url>not needed</platform-aggregated-url>
+        <platform-3rdparty-url>not needed</platform-3rdparty-url> -->
+	</properties>
+
+
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>maven-central</id>-->
+<!--            <name>Central Repository</name>-->
+<!--            <url>https://repo.maven.apache.org/maven2</url>-->
+<!--            <layout>default</layout>-->
+<!--            <snapshots>-->
+<!--                <enabled>false</enabled>-->
+<!--            </snapshots>-->
+<!--        </repository>-->
+<!--    </repositories>-->
+
+    <repositories>
+        <repository>
+            <id>maven-central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+<!--        <repository> 
+            <id>platform-aggregated</id>
+            <url>${platform-aggregated-url}</url>
+            <layout>p2</layout>
+        </repository>
+        <repository>
+            <id>platform-3rdparty</id>
+            <url>${platform-3rdparty-url}</url>
+            <layout>p2</layout>
+        </repository> -->
+<!--		<repository>
+			<id>eclipse</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/latest</url>
+		</repository>        -->
+    </repositories>
+
+
+    <build>
+		
+        <defaultGoal>verify</defaultGoal>
+        <!-- only relevant for modules containing plain java tests -->
+        <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>test</testSourceDirectory>
+        
+        <plugins>
+	        <plugin>
+	            <groupId>org.eclipse.tycho</groupId>
+	            <artifactId>tycho-maven-plugin</artifactId>
+	            <version>${tycho-version}</version>
+	            <extensions>true</extensions>
+	        </plugin>
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>target-platform-configuration</artifactId>
+                <version>${tycho-version}</version>
+                <configuration>
+                    <environments>
+                        <environment>
+                            <os>win32</os>
+                            <ws>win32</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                        <environment>
+                            <os>linux</os>
+                            <ws>gtk</ws>
+                            <arch>x86_64</arch>
+                        </environment> 
+                        <!-- Uncomment below for MacOS builds, also the relevant lines in releng/products/pom.xml --> 
+                        <!-- <environment>
+                            <os>macosx</os>
+                            <ws>cocoa</ws>
+                            <arch>x86_64</arch>
+                        </environment> -->
+                        <!-- <environment>
+                            <os>macosx</os>
+                            <ws>cocoa</ws>
+                            <arch>aarch64</arch>
+                        </environment> -->
+                    </environments>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-surefire-plugin</artifactId>
+                <version>${tycho-version}</version>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire-plugin-version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${junit-version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>test</id>
+                        <phase>test</phase>
+                        <configuration>
+                            <includes>
+                                <include>**/*.java</include>
+                            </includes>
+                            <excludedGroups>PluginTest</excludedGroups>
+                        </configuration>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>            
+            
+        </plugins>
+	</build>	
+	
+</project>

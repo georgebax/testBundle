@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TestProject
+Bundle-SymbolicName: TestProject
+Bundle-Version: 1.0.0.202306061444
+Automatic-Module-Name: TestProject
+
